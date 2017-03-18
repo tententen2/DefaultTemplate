@@ -59,7 +59,8 @@ public class MainFragment extends Fragment {
             public void onResponse(Call<PhotoItemCollectionDAO> call, Response<PhotoItemCollectionDAO> response) {
                 if(response.isSuccessful()){
                     PhotoItemCollectionDAO dao = response.body();
-                    PhotoListManager.getInstance().setDao(dao);
+//                    PhotoListManager.getInstance().setDao(dao);
+                    photoListAdapter.setPhotoItemCollectionDAO(dao);
                     photoListAdapter.notifyDataSetChanged();
                     Toast.makeText(Contextor.getInstance().getContext(),dao.getData().get(0).getCaption(),Toast.LENGTH_LONG).show();
                 }else{

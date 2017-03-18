@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.tenjirawat.liveat500px.dao.PhotoItemCollectionDAO;
 import com.tenjirawat.liveat500px.dao.PhotoItemDAO;
 import com.tenjirawat.liveat500px.manager.PhotoListManager;
 import com.tenjirawat.liveat500px.view.PhotoListItem;
@@ -14,20 +15,30 @@ import com.tenjirawat.liveat500px.view.PhotoListItem;
  */
 
 public class PhotoListAdapter extends BaseAdapter {
+    private PhotoItemCollectionDAO photoItemCollectionDAO;
+
+    public PhotoItemCollectionDAO getPhotoItemCollectionDAO() {
+        return photoItemCollectionDAO;
+    }
+
+    public void setPhotoItemCollectionDAO(PhotoItemCollectionDAO photoItemCollectionDAO) {
+        this.photoItemCollectionDAO = photoItemCollectionDAO;
+    }
+
     @Override
     public int getCount() {
-        if(PhotoListManager.getInstance().getDao() == null){
+        if(photoItemCollectionDAO == null){
             return 0;
         }
-        if(PhotoListManager.getInstance().getDao().getData() == null){
+        if(photoItemCollectionDAO.getData() == null){
             return 0;
         }
-        return PhotoListManager.getInstance().getDao().getData().size();
+        return photoItemCollectionDAO.getData().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return PhotoListManager.getInstance().getDao().getData().get(i);
+        return photoItemCollectionDAO.getData().get(i);
     }
 
     @Override

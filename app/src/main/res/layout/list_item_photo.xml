@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imgmock"
+        android:id="@+id/ivimg"
         android:src="@drawable/mock"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"

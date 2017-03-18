@@ -5,15 +5,24 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
 import com.tenjirawat.liveat500px.R;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 public class PhotoListItem extends BaseCustomViewGroup {
+    private TextView tvName;
+    private TextView tvDescription;
+    private ImageView ivImg;
 
     public PhotoListItem(Context context) {
         super(context);
@@ -49,6 +58,9 @@ public class PhotoListItem extends BaseCustomViewGroup {
 
     private void initInstances() {
         // findViewById here
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvDescription = (TextView) findViewById(R.id.tvDescription);
+        ivImg = (ImageView) findViewById(R.id.ivimg);
     }
 
     private void initWithAttrs(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -100,5 +112,19 @@ public class PhotoListItem extends BaseCustomViewGroup {
 
         setMeasuredDimension(width,height);
 
+    }
+
+    public void setNameText(String text){
+        tvName.setText(text);
+    }
+    public void setDescriptionText(String text){
+        tvDescription.setText(text);
+    }
+    public void setImageUrl(String url){
+        Glide.with(getContext())
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivImg)
+                ;
     }
 }
