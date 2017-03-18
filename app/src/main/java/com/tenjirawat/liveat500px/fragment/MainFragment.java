@@ -13,6 +13,7 @@ import com.tenjirawat.liveat500px.R;
 import com.tenjirawat.liveat500px.adapter.PhotoListAdapter;
 import com.tenjirawat.liveat500px.dao.PhotoItemCollectionDAO;
 import com.tenjirawat.liveat500px.manager.HttpManager;
+import com.tenjirawat.liveat500px.manager.PhotoListManager;
 
 import java.io.IOException;
 
@@ -58,6 +59,8 @@ public class MainFragment extends Fragment {
             public void onResponse(Call<PhotoItemCollectionDAO> call, Response<PhotoItemCollectionDAO> response) {
                 if(response.isSuccessful()){
                     PhotoItemCollectionDAO dao = response.body();
+                    PhotoListManager.getInstance().setDao(dao);
+                    photoListAdapter.notifyDataSetChanged();
                     Toast.makeText(Contextor.getInstance().getContext(),dao.getData().get(0).getCaption(),Toast.LENGTH_LONG).show();
                 }else{
                     //Handle
