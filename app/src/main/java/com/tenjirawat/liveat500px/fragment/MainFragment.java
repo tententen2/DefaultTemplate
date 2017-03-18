@@ -2,9 +2,11 @@ package com.tenjirawat.liveat500px.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import retrofit2.Response;
 public class MainFragment extends Fragment {
     private ListView listView;
     private PhotoListAdapter photoListAdapter;
+    private SwipeRefreshLayout refreshLayout;
 
     public MainFragment() {
         super();
@@ -53,10 +56,36 @@ public class MainFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.listview);
         photoListAdapter = new PhotoListAdapter();
         listView.setAdapter(photoListAdapter);
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadData();
+            }
+        });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                refreshLayout.setEnabled(i == 0);
+
+            }
+        });
+
+
+        reloadData();
+    }
+
+    private void reloadData() {
         Call<PhotoItemCollectionDAO> call = HttpManager.getInstance().getService().loadPhotoList();
         call.enqueue(new Callback<PhotoItemCollectionDAO>() {
             @Override
             public void onResponse(Call<PhotoItemCollectionDAO> call, Response<PhotoItemCollectionDAO> response) {
+                refreshLayout.setRefreshing(false);
                 if(response.isSuccessful()){
                     PhotoItemCollectionDAO dao = response.body();
 //                    PhotoListManager.getInstance().setDao(dao);
@@ -75,6 +104,7 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PhotoItemCollectionDAO> call, Throwable t) {
+                refreshLayout.setRefreshing(false);
                     //Handle
                 Toast.makeText(Contextor.getInstance().getContext(),t.toString(),Toast.LENGTH_LONG).show();
             }

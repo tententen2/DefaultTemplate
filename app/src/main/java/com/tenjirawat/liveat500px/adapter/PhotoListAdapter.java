@@ -2,9 +2,12 @@ package com.tenjirawat.liveat500px.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.tenjirawat.liveat500px.R;
 import com.tenjirawat.liveat500px.dao.PhotoItemCollectionDAO;
 import com.tenjirawat.liveat500px.dao.PhotoItemDAO;
 import com.tenjirawat.liveat500px.manager.PhotoListManager;
@@ -16,6 +19,7 @@ import com.tenjirawat.liveat500px.view.PhotoListItem;
 
 public class PhotoListAdapter extends BaseAdapter {
     private PhotoItemCollectionDAO photoItemCollectionDAO;
+    private int lastposition = -1;
 
     public PhotoItemCollectionDAO getPhotoItemCollectionDAO() {
         return photoItemCollectionDAO;
@@ -71,6 +75,12 @@ public class PhotoListAdapter extends BaseAdapter {
             item.setNameText(dao.getCaption());
             item.setDescriptionText(dao.getUsername()+ "\n" + dao.getCamera());
             item.setImageUrl(dao.getImgUrl());
+
+        if(i > lastposition) {
+            lastposition = i;
+            Animation anim = AnimationUtils.loadAnimation(viewGroup.getContext(), R.anim.up_from_bottom); // load animation
+            item.startAnimation(anim);
+        }
 
             return item;
 //        }else{
