@@ -17,7 +17,7 @@ public class CustomViewTemplate extends View {
 
     public CustomViewTemplate(Context context) {
         super(context);
-        init();
+        init();//ต้องการ init ค่าอะไรก็ทำในนี้
     }
 
     public CustomViewTemplate(Context context, AttributeSet attrs) {
@@ -53,14 +53,16 @@ public class CustomViewTemplate extends View {
         try {
 
         } finally {
-            a.recycle();
+            a.recycle(); // ต้องคืน memory เอง (TypedArray a)
         }
         */
     }
 
-    @Override
+    @Override //ปล็ดล็อคในการวาด โยนผ้าใบใสๆมาใหม่
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        // getMeasuredHeight() measure จะไล่วัดทีละตัว
     }
 
     @Override

@@ -44,7 +44,7 @@ public class CustomViewGroupTemplate extends BaseCustomViewGroup {
     }
 
     private void initInflate() {
-        inflate(getContext(), R.layout.sample_layout, this);
+        inflate(getContext(), R.layout.sample_layout, this); //this มันจะอ แป๊ะลง Framlayout
     }
 
     private void initInstances() {
